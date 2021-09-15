@@ -7,12 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Classroom extends Model
 {
-    use HasFactory;
     protected $table = 'classrooms';
     protected $fillable = [
         'name',
-        'grade_id',
-        'parent_id',
         'grade_id',
         'created_at',
         'updated_at'

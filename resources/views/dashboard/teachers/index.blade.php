@@ -1,6 +1,12 @@
 @extends('layouts.dashboard')
 @section('css')
-    <link href="{{asset('assets/vendors/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+    @if(LaravelLocalization::getCurrentLocale() =='en')
+        <link href="{{asset('assets/vendors/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+
+    @elseif(LaravelLocalization::getCurrentLocale() =='ar')
+        <link href="{{asset('assets/vendors/custom/datatables/datatables.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
+
+    @endif
 
 @endsection
 @section('content')
@@ -14,7 +20,7 @@
 											<i class="kt-font-brand flaticon2-line-chart"></i>
 										</span>
                     <h3 class="kt-portlet__head-title">
-                        {{__('grade.grades')}}
+                        {{__('lang.teachers')}}
                         <small>Datatable initialized from HTML table</small>
                     </h3>
                 </div>
@@ -26,9 +32,9 @@
                                 <span class="fa-stack fa" style="color:white;"><i class="fas fa-plus"></i></span>
                                 {{__('sidebar.newCategory')}}
                             </button>--}}
-                            <a href="#" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#exampleModalLong">
+                            <a href="{{route('teachers.create')}}" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#exampleModalLong">
                                 <i class="la la-plus"></i>
-                                {{__('grade.addGrade')}}
+                                {{__('lang.addTeacher')}}
                             </a>
                             <button id="delete" class="btn btn-danger font-weight-bolder">
                                 <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -48,54 +54,6 @@
             <!--begin::Modal-->
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"> {{__('grade.addGrade')}}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <!--begin::Form-->
-
-                            <form class="kt-form" enctype="multipart/form-data" action="{{route('grades.store')}}" method="POST" >
-                                @csrf
-                                <div class="kt-portlet__body">
-                                    <div class="kt-section kt-section--first">
-
-                                        <div class="form-group">
-                                            <label>{{__('category.arName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.arName')}}" name="name_ar">
-                                            <span class="form-text text-muted">{{__('lang.arSpan')}}</span>
-                                            @error('name_ar')
-                                            <span class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>{{__('category.enName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.enName')}}" name="name_en">
-                                            <span class="form-text text-muted">{{__('lang.enSpan')}}</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>{{__('grade.notes')}}</label>
-                                            <textarea type="text" class="form-control" placeholder="{{__('grade.notes')}}" name="notes"></textarea>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
 
             <div class="modal fade modal-edit" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -126,24 +84,26 @@
                                 <thead>
                                 <tr>
                                     <th title="Field #1">#</th>
-                                    <th title="Field #2">{{__('category.arName')}}</th>
-                                    <th title="Field #3">{{__('category.enName')}}</th>
-                                    <th title="Field #4">{{__('grade.notes')}}</th>
+                                    <th title="Field #2">{{__('lang.email')}}</th>
+                                    <th title="Field #3">{{__('lang.name')}}</th>
+                                    <th title="Field #4">{{__('grade.grades')}}</th>
+                                    <th title="Field #4">{{__('lang.classroom')}}</th>
                                     <th title="Field #5">{{__('category.actions')}}</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @isset($grades)
-                                    @foreach($grades as $grade)
+                                @isset($teachers)
+                                    @foreach($teachers as $teacher)
                                         <tr class="data-row">
-                                            <td scope="row">{{$grade -> id}}</td>
-                                            <td class="name_ar">{{$grade->name_ar}}</td>
-                                            <td class="name_en">{{$grade->name_en}}</td>
-                                            <td class="name_en">{{$grade->notes}}</td>
+                                            <td scope="row">{{$teacher -> id}}</td>
+                                            <td class="name_ar">{{$teacher->email}}</td>
+                                            <td class="name_en">{{$teacher->name}}</td>
+                                            <td class="name_en">{{$teacher->grade->name_ar}}</td>
+                                            <td class="name_en">{{$teacher->classroom->name}}</td>
                                             <td>
                                                 <button type="button" class="btn btn-primary edit-product"
-                                                        data-id="{{$grade -> id}}">
+                                                        data-id="{{$teacher -> id}}">
                                                     Edit
                                                     <i class="la la-edit"></i>
                                                 </button>

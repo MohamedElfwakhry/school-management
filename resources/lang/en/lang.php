@@ -19,6 +19,8 @@ return [
     'Delete' => 'delete',
     'phone' => 'Phone',
     'email'=> 'Email',
+    'password'=> 'Pssword',
+
     'arAddress'=> 'Arabic Address',
     'enAddress'=> 'English Address',
     'facebook'=> 'Facebook',
@@ -28,8 +30,8 @@ return [
     //products
 
     'createProduct' => 'Add Product',
-    'arSpan' => 'Please enter the product in arabic.',
-    'enSpan' => 'Please enter the product in English.',
+    'arSpan' => 'Please enter the Grade in arabic.',
+    'enSpan' => 'Please enter the Grade in English.',
     'category' =>'Main Category',
     'price' =>'Price',
     'discount' =>'Discount',
@@ -44,6 +46,16 @@ return [
     'name' => 'Full Name',
     'title' => 'Title',
     'description' => 'Description',
+
+
+    'teachers' => 'Teachers',
+    'addTeacher' => 'Add new Teachers',
+    'viewAllTeachers' => 'All Teachers',
+
+    'classrooms' => 'Classrooms',
+    'classroom' => 'Classroom',
+
+    'addClassrooms' => 'Add Classroom',
 
 
 ];

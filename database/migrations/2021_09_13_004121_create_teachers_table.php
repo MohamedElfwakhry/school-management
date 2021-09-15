@@ -21,6 +21,7 @@ class CreateTeachersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId('classroom_id')->constrained('classrooms')->onDelete('cascade');
+            $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

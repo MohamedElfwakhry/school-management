@@ -14,7 +14,7 @@
 											<i class="kt-font-brand flaticon2-line-chart"></i>
 										</span>
                     <h3 class="kt-portlet__head-title">
-                        {{__('grade.grades')}}
+                        {{__('lang.classrooms')}}
                         <small>Datatable initialized from HTML table</small>
                     </h3>
                 </div>
@@ -28,7 +28,7 @@
                             </button>--}}
                             <a href="#" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#exampleModalLong">
                                 <i class="la la-plus"></i>
-                                {{__('grade.addGrade')}}
+                                {{__('lang.addClassrooms')}}
                             </a>
                             <button id="delete" class="btn btn-danger font-weight-bolder">
                                 <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -52,7 +52,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"> {{__('grade.addGrade')}}</h5>
+                            <h5 class="modal-title" id="exampleModalLongTitle"> {{__('lang.addClassrooms')}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -60,28 +60,31 @@
                         <div class="modal-body">
                             <!--begin::Form-->
 
-                            <form class="kt-form" enctype="multipart/form-data" action="{{route('grades.store')}}" method="POST" >
+                            <form class="kt-form" enctype="multipart/form-data" action="{{route('classrooms.store')}}" method="POST" >
                                 @csrf
                                 <div class="kt-portlet__body">
                                     <div class="kt-section kt-section--first">
+                                        <div class="form-group">
+                                            <div class="dropdown">
+                                                Select Grade:
+                                                <select name="grade_id" class="select form-control">
+                                                    @foreach($grades as $grade)
+                                                        <option value="{{$grade -> id }}">
+                                                            @if(LaravelLocalization::getCurrentLocale()=='en')
+                                                                {{$grade -> name_en}}
+                                                            @else
+                                                                {{$grade -> name_ar}}
+                                                            @endif
+                                                        </option>
+                                                    @endforeach
+                                                </select>
 
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label>{{__('category.arName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.arName')}}" name="name_ar">
+                                            <input type="text" class="form-control" placeholder="{{__('category.arName')}}" name="name">
                                             <span class="form-text text-muted">{{__('lang.arSpan')}}</span>
-                                            @error('name_ar')
-                                            <span class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>{{__('category.enName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.enName')}}" name="name_en">
-                                            <span class="form-text text-muted">{{__('lang.enSpan')}}</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>{{__('grade.notes')}}</label>
-                                            <textarea type="text" class="form-control" placeholder="{{__('grade.notes')}}" name="notes"></textarea>
                                         </div>
 
                                     </div>
@@ -127,23 +130,27 @@
                                 <tr>
                                     <th title="Field #1">#</th>
                                     <th title="Field #2">{{__('category.arName')}}</th>
-                                    <th title="Field #3">{{__('category.enName')}}</th>
-                                    <th title="Field #4">{{__('grade.notes')}}</th>
+                                    <th title="Field #4">{{__('grade.grades')}}</th>
                                     <th title="Field #5">{{__('category.actions')}}</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @isset($grades)
-                                    @foreach($grades as $grade)
+                                @isset($classrooms)
+                                    @foreach($classrooms as $classroom)
                                         <tr class="data-row">
-                                            <td scope="row">{{$grade -> id}}</td>
-                                            <td class="name_ar">{{$grade->name_ar}}</td>
-                                            <td class="name_en">{{$grade->name_en}}</td>
-                                            <td class="name_en">{{$grade->notes}}</td>
+                                            <td scope="row">{{$classroom -> id}}</td>
+                                            <td class="name_ar">{{$classroom->name}}</td>
+                                            <td class="name_en">
+                                                @if(LaravelLocalization::getCurrentLocale()=='en')
+                                                    {{$classroom->grade->name_en}}
+                                                @else
+                                                    {{$classroom->grade->name_ar}}
+                                                @endif
+                                            </td>
                                             <td>
                                                 <button type="button" class="btn btn-primary edit-product"
-                                                        data-id="{{$grade -> id}}">
+                                                        data-id="{{$classroom -> id}}">
                                                     Edit
                                                     <i class="la la-edit"></i>
                                                 </button>
@@ -220,7 +227,7 @@
                     if (result.value) {
                         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
-                            url:'{{route("grades.delete")}}',
+                            url:'{{route("classrooms.delete")}}',
                             type:"get",
                             data:{'id':dataList,_token: CSRF_TOKEN},
                             dataType:"JSON",
@@ -280,7 +287,7 @@
             */
             $.ajax({
                 type: "GET",
-                url: "{{route('grades.edit')}}",
+                url: "{{route('classrooms.edit')}}",
                 data: {"id":id},
                 success: function (data) {
                     $(".modal-edit .modal-body").html(data)

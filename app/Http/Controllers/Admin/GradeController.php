@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\GradeRequest;
+use App\Models\Grade;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -15,7 +17,8 @@ class GradeController extends Controller
    */
   public function index()
   {
-      return view('dashboard.grades.index');
+      $grades = Grade::all();
+      return view('dashboard.grades.index',compact('grades'));
   }
 
   /**
@@ -33,8 +36,20 @@ class GradeController extends Controller
    *
    * @return Response
    */
-  public function store(Request $request)
+  public function store(GradeRequest $request)
   {
+      try {
+          $grade = new Grade();
+          $grade -> name_ar = $request-> name_ar;
+          $grade -> name_en = $request -> name_en;
+          $grade -> notes = $request -> notes;
+
+          $grade->save();
+          return redirect()->route('grades')->with(['success'=>'تم التحديث بنجاح']);
+      }catch (\Exception $exception){
+          return redirect()->route('grades')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
+
+      }
 
   }
 
@@ -44,7 +59,7 @@ class GradeController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function show($id)
+  public function show(Request $request)
   {
 
   }
@@ -55,8 +70,11 @@ class GradeController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function edit($id)
+  public function edit(Request $request)
   {
+
+      $grade = Grade::find($request->id);
+      return view('dashboard.grades.edit',compact('grade'));
 
   }
 
@@ -66,9 +84,17 @@ class GradeController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(GradeRequest $request)
   {
+      $grade = Grade::find($request->id);
+      if (!$grade) {
+          return redirect()->route('grades')->with(['error'=>'هذا الصف غير موجود']);
 
+      }
+      //update data
+      $grade->update($request->all());
+
+      return redirect()->route('grades')->with(['success'=>'تم التحديث بنجاح']);
   }
 
   /**
@@ -77,9 +103,14 @@ class GradeController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function delete(Request $request)
   {
-
+      try{
+          Grade::whereIn('id',$request->id)->delete();
+      } catch (\Exception $e) {
+          return response()->json(['message'=>'Failed']);
+      }
+      return response()->json(['message'=>'Success']);
   }
 
 }
