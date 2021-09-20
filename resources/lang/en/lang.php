@@ -57,5 +57,26 @@ return [
 
     'addClassrooms' => 'Add Classroom',
 
+    //parents
+    'parents' => 'Parents',
+    'addParent' => 'Add new Parent',
+    'viewAllParents' => 'All Parents',
+
+    //blogs
+    'blogs' => 'Blogs',
+    'addBlog' => 'Add Blog',
+    'viewAllBlogs' => 'All Blogs',
+    'address' => 'Address',
+    'notes' => 'Notes',
+    'images' => 'Images',
+
+    //students
+    'students' =>'Students',
+    'addStudent'=>'Add new student',
+    'viewAllStudents' => 'All Students',
+
+    'personalInformation'=>'Personal Information',
+    'information'=>'Information',
+
 
 ];

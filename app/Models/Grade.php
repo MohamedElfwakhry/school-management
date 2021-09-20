@@ -13,7 +13,6 @@ class Grade extends Model
     protected $fillable = [
         'name_ar',
         'name_en',
-        'notes',
         'created_at',
         'updated_at'
     ];

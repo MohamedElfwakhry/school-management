@@ -1,16 +1,13 @@
 @extends('layouts.dashboard')
 @section('css')
-    <link rel="stylesheet" href="{{ asset('assets/dropify/css/dropify.css' )}}">
-    <link href="{{asset('assets/vendors/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
-    <style>
-        .center-cropped {
-            width: 100px;
-            height: 100px;
-            background-position: center center;
-            background-repeat: no-repeat;
-            overflow: hidden;
-        }
-    </style>
+    @if(LaravelLocalization::getCurrentLocale() =='en')
+        <link href="{{asset('assets/vendors/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+
+    @elseif(LaravelLocalization::getCurrentLocale() =='ar')
+        <link href="{{asset('assets/vendors/custom/datatables/datatables.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
+
+    @endif
+
 @endsection
 @section('content')
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid" data-toggle="modal" data-target="#kt_modal_4">
@@ -23,7 +20,7 @@
 											<i class="kt-font-brand flaticon2-line-chart"></i>
 										</span>
                     <h3 class="kt-portlet__head-title">
-                        {{__('lang.sliders')}}
+                        {{__('lang.teachers')}}
                         <small>Datatable initialized from HTML table</small>
                     </h3>
                 </div>
@@ -35,9 +32,9 @@
                                 <span class="fa-stack fa" style="color:white;"><i class="fas fa-plus"></i></span>
                                 {{__('sidebar.newCategory')}}
                             </button>--}}
-                            <a href="#" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#exampleModalLong">
+                            <a href="{{route('teachers.create')}}" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#exampleModalLong">
                                 <i class="la la-plus"></i>
-                                {{__('lang.createSlider')}}
+                                {{__('lang.addTeacher')}}
                             </a>
                             <button id="delete" class="btn btn-danger font-weight-bolder">
                                 <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -57,70 +54,6 @@
             <!--begin::Modal-->
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"> {{__('lang.createSlider')}}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <!--begin::Form-->
-
-                            <form class="kt-form" enctype="multipart/form-data" action="{{route('create.slider')}}" method="POST" >
-                                @csrf
-                                <div class="kt-portlet__body">
-                                    <div class="kt-section kt-section--first">
-                                        <div class="form-group">
-                                            <div class="dropdown">
-                                                Select Category:
-                                                <select name="category_id" class="select form-control" id="main_category">
-                                                    @foreach($categories as $category)
-                                                        <option value="{{$category -> id }}">
-                                                            {{$category -> name_en}}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-
-                                                @error('category_id')
-                                                <span class="text-danger">{{$message}}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>{{__('category.arName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.arName')}}" name="name_ar">
-                                            <span class="form-text text-muted">{{__('lang.arSpan')}}</span>
-                                            @error('name_ar')
-                                            <span class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>{{__('category.enName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.enName')}}" name="name_en">
-                                            <span class="form-text text-muted">{{__('lang.enSpan')}}</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>{{__('category.photo')}}</label>
-                                            <input type="file" id="input-file-now-custom-1" class="dropify"  name="photo" >
-                                            <span class="form-text text-muted">{{__('category.enSpan')}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
 
             <div class="modal fade modal-edit" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -151,24 +84,31 @@
                                 <thead>
                                 <tr>
                                     <th title="Field #1">#</th>
-                                    <th title="Field #2">{{__('category.arName')}}</th>
-                                    <th title="Field #3">{{__('category.enName')}}</th>
-                                    <th title="Field #4">{{__('category.photo')}}</th>
+                                    <th title="Field #2">{{__('lang.email')}}</th>
+                                    <th title="Field #3">{{__('lang.name')}}</th>
+                                    <th title="Field #3">{{__('lang.grades')}}</th>
+                                    <th title="Field #3">{{__('lang.grades')}}</th>
                                     <th title="Field #5">{{__('category.actions')}}</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @isset($products)
-                                    @foreach($sliders as $category)
+                                @isset($students)
+                                    @foreach($students as $parent)
                                         <tr class="data-row">
-                                            <td scope="row">{{$category -> id}}</td>
-                                            <td class="name_ar">{{$category->name_ar}}</td>
-                                            <td class="name_en">{{$category->name_en}}</td>
-                                            <td><img class="center-cropped" src="{{$category->photo}}" width="100" height="100" alt="Girl in a jacket" ></td>
-                                            <td>
+                                            <td scope="row">{{$parent -> id}}</td>
+                                            <td class="name_ar">{{$parent->email}}</td>
+                                            <td class="name_en">{{$parent->name}}</td>
+                                            <td style="text-align:center"><span class="kt-userpic kt-userpic--circle kt-margin-r-5 kt-margin-t-5">
+														<img src="{{$parent->photo}}" alt="image">
+													</span></td>
+
+                                            <td class="name_en">
+                                                <a href="#" class="btn btn-outline-warning">{{$parent->grade_id}}</a>
+                                                </td>
+                                            <td style="text-align:center">
                                                 <button type="button" class="btn btn-primary edit-product"
-                                                        data-id="{{$category -> id}}">
+                                                        data-id="{{$parent -> id}}">
                                                     Edit
                                                     <i class="la la-edit"></i>
                                                 </button>
@@ -192,53 +132,10 @@
     </div>
 
 @endsection
+
 @section('js')
-    <script src="{{asset('assets/dropify/js/dropify.js' )}}"></script>
-    <script src="{{asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
     <script src="{{asset('assets/vendors/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            // Basic
-            $('.dropify').dropify();
-
-            // Translated
-            $('.dropify-fr').dropify({
-                messages: {
-                    default: 'Glissez-déposez un fichier ici ou cliquez',
-                    replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
-                    remove:  'Supprimer',
-                    error:   'Désolé, le fichier trop volumineux'
-                }
-            });
-
-            // Used events
-            var drEvent = $('#input-file-events').dropify();
-
-            drEvent.on('dropify.beforeClear', function(event, element){
-                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
-            });
-
-            drEvent.on('dropify.afterClear', function(event, element){
-                alert('File deleted');
-            });
-
-            drEvent.on('dropify.errors', function(event, element){
-                console.log('Has Errors');
-            });
-
-            var drDestroy = $('#input-file-to-destroy').dropify();
-            drDestroy = drDestroy.data('dropify')
-            $('#toggleDropify').on('click', function(e){
-                e.preventDefault();
-                if (drDestroy.isDropified()) {
-                    drDestroy.destroy();
-                } else {
-                    drDestroy.init();
-                }
-            })
-        });
-    </script>
+    <script src="{{asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
 
     //delete
     <script>
@@ -288,7 +185,7 @@
                     if (result.value) {
                         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
-                            url:'{{route("delete.slider")}}',
+                            url:'{{route("grades.delete")}}',
                             type:"get",
                             data:{'id':dataList,_token: CSRF_TOKEN},
                             dataType:"JSON",
@@ -339,6 +236,7 @@
         });
     </script>
 
+    //edit
     <script>
         $(".edit-product").click(function(){
             var id=$(this).data('id')
@@ -347,7 +245,7 @@
             */
             $.ajax({
                 type: "GET",
-                url: "{{route('edit.product')}}",
+                url: "{{route('grades.edit')}}",
                 data: {"id":id},
                 success: function (data) {
                     $(".modal-edit .modal-body").html(data)
@@ -360,83 +258,4 @@
             })
         })
     </script>
-    <?php
-    $message=session()->get("message");
-    ?>
-
-    @if( session()->has("message"))
-        @if( $message == "Success")
-            <script>
-                Swal.fire({
-                    icon: 'success',
-                    title: "{{__('lang.Success')}}",
-                    text: "{{__('lang.Success_text')}}",
-                    type:"success" ,
-                    timer: 1000,
-                    showConfirmButton: false
-                });
-
-            </script>
-        @elseif ( $message == "Failed")
-            <script>
-                Swal.fire({
-                    icon: 'warning',
-                    title: "{{__('lang.Sorry')}}",
-                    text: "{{__('lang.operation_failed')}}",
-                    type:"error" ,
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-            </script>
-        @endif
-
-        @if( $message == "phone")
-            <script>
-                Swal.fire({
-                    icon: 'warning',
-                    title: "{{__('lang.Sorry')}}",
-                    text: "عفوا رقم الهاتف موجود بالفعل",
-                    type:"error" ,
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-            </script>
-        @endif
-        @if( $message == "email")
-            <script>
-                Swal.fire({
-                    icon: 'warning',
-                    title: "{{__('lang.Sorry')}}",
-                    text: "عفوا البريد الالكتروني موجود بالفعل",
-                    type:"error" ,
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-            </script>
-        @endif
-        @if( $message == "job_num")
-            <script>
-                Swal.fire({
-                    icon: 'warning',
-                    title: "{{__('lang.Sorry')}}",
-                    text: "عفوا رقم الوظيفة موجود بالفعل",
-                    type:"error" ,
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-            </script>
-        @endif
-        @if( $message == "contract_num")
-            <script>
-                Swal.fire({
-                    icon: 'warning',
-                    title: "{{__('lang.Sorry')}}",
-                    text: "عفوا رقم العقد موجود بالفعل",
-                    type:"error" ,
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-            </script>
-        @endif
-    @endif
 @endsection

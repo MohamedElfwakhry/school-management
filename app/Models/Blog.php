@@ -7,13 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-    protected $table = 'grades';
+    protected $table = 'blogs';
     protected $fillable = [
         'address',
-        'name_en',
         'notes',
-        'file',
-        'photo',
         'classroom_id',
         'created_at',
         'updated_at'
@@ -23,5 +20,9 @@ class Blog extends Model
     public function classroom()
     {
         return $this->belongsTo(Classroom::class, 'classroom_id');
+    }
+    public function blogImages()
+    {
+        return $this->hasMany(BlogImages::class, 'blog_id');
     }
 }

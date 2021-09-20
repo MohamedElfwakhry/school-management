@@ -36,18 +36,21 @@ class GradeController extends Controller
    *
    * @return Response
    */
-  public function store(GradeRequest $request)
+  public function store(Request $request)
   {
       try {
-          $grade = new Grade();
-          $grade -> name_ar = $request-> name_ar;
-          $grade -> name_en = $request -> name_en;
-          $grade -> notes = $request -> notes;
+          $List_Classes = $request->List_Classes;
+          foreach ($List_Classes as $classroom){
+              $grade = new Grade();
+              $grade -> name_ar = $classroom['name_ar'] ;
+              $grade -> name_en = $classroom['name_en'];
 
-          $grade->save();
+              $grade->save();
+          }
+
           return redirect()->route('grades')->with(['success'=>'تم التحديث بنجاح']);
       }catch (\Exception $exception){
-          return redirect()->route('grades')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
+          return response()->json(['message'=>$exception]);
 
       }
 

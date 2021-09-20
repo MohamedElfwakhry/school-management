@@ -27,7 +27,6 @@ class GradeRequest extends FormRequest
             //
             'name_en' => 'required',
             'name_ar' => 'required',
-            'notes' => 'required',
         ];
     }
 
@@ -35,7 +34,6 @@ class GradeRequest extends FormRequest
         return [
             'name_ar.required' => 'الاسم بالعربى مطلوب',
             'name_en.email' => 'الاسم بالانجليزى مطلوب',
-            'notes.required' => 'الملاحظات مطلوبه'
         ];
     }
 }

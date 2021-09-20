@@ -2,9 +2,13 @@
 /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\GradeController;
+use App\Http\Controllers\Admin\ParentController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,13 +26,45 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
             return view('dashboard.permision');
         })->name('permision');
 
+        Route::get('/get-classroom',[TeacherController::class,'getClassrooms'])->name('teachers.getClassroom');
 
     });
 
-    Route::group(['prefix'=>'dashboard','namespace' => 'Admin', 'middleware' => 'auth:teacher'], function(){
+    Route::group(['prefix'=>'dashboard','namespace' => 'Admin', 'middleware' => 'teacher'], function(){
         /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
-       /* Route::get('login', [AuthController::class,'index']);
-        Route::post('login', [AuthController::class,'login']);*/
+
+        Route::group(['prefix'=>'classroom-blogs','namespace'=>'Admin'],function (){
+            Route::get('/',[BlogController::class,'index'])->name('classroom-blogs');
+            Route::get('/create-blog',[BlogController::class,'create'])->name('classroom-blogs.create');
+            Route::post('/store',[BlogController::class,'store'])->name('classroom-blogs.store');
+            Route::get('/edit/{id}',[BlogController::class,'edit'])->name('classroom-blogs.edit');
+            Route::post('/update',[BlogController::class,'update'])->name('classroom-blogs.update');
+            Route::get('/delete',[BlogController::class,'delete'])->name('classroom-blogs.delete');
+        });
+
+    });
+
+    Route::group(['prefix'=>'dashboard','namespace'=>'Admin','middleware'=>'all'],function (){
+        Route::get('/', [HomeController::class,'index'])->name('dashboard');
+
+    });
+
+    Route::group(['prefix'=>'dashboard','namespace'=>'Admin','middleware'=>'parent'],function (){
+        Route::group(['prefix'=>'students-classroom','namespace'=>'Admin'],function (){
+            Route::get('/',[StudentController::class,'index'])->name('students-classroom');
+            Route::get('/create',[StudentController::class,'create'])->name('students-classroom.create');
+            Route::post('/store',[StudentController::class,'store'])->name('students-classroom.store');
+            Route::get('/edit/{id}',[StudentController::class,'edit'])->name('students-classroom.edit');
+            Route::post('/update',[StudentController::class,'update'])->name('students-classroom.update');
+            Route::get('/delete',[StudentController::class,'delete'])->name('students-classroom.delete');
+        });
+
+        Route::group(['prefix'=>'settings-parent','namespace'=>'Admin'],function (){
+            Route::get('/',[SettingsController::class,'index'])->name('parents.edit');
+            Route::post('/update',[SettingsController::class,'update'])->name('parents.update');
+            Route::post('/change-password',[ParentController::class,'changePassword'])->name('parents.changepassword');
+
+        });
 
     });
 
@@ -38,7 +74,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::group(['prefix'=>'teachers','namespace'=>'Admin'],function (){
             Route::get('/',[TeacherController::class,'index'])->name('teachers');
             Route::get('/register-teacher',[TeacherController::class,'create'])->name('teachers.create');
-            Route::get('/get-classroom',[TeacherController::class,'getClassrooms'])->name('teachers.getClassroom');
             Route::post('/store',[TeacherController::class,'store'])->name('teachers.store');
             Route::get('/edit',[TeacherController::class,'edit'])->name('teachers.edit');
             Route::get('/update',[TeacherController::class,'update'])->name('teachers.update');
@@ -49,7 +84,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
     });
     Route::group(['prefix'=>'dashboard','namespace' => 'Admin', 'middleware' => 'auth:admin'], function(){
         Route::get('logout', [AuthController::class,'logOut'])->name('admin.logout');
-        Route::get('/', [HomeController::class,'index'])->name('dashboard');
 
         Route::group(['prefix'=>'grades','namespace'=>'Admin'],function (){
             Route::get('/',[GradeController::class,'index'])->name('grades');
@@ -68,7 +102,32 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
         });
 
+        Route::group(['prefix'=>'parents','namespace'=>'Admin'],function (){
+            Route::get('/',[ParentController::class,'index'])->name('parents');
+            Route::get('/register-parent',[ParentController::class,'create'])->name('parents.create');
+            Route::post('/store',[ParentController::class,'store'])->name('parents.store');
+            Route::get('/delete',[ParentController::class,'delete'])->name('parents.delete');
 
+        });
+
+        Route::group(['prefix'=>'blogs','namespace'=>'Admin'],function (){
+            Route::get('/',[BlogController::class,'indexAll'])->name('blogs');
+            Route::get('/register-parent',[BlogController::class,'create'])->name('blogs.create');
+            Route::post('/store',[BlogController::class,'store'])->name('blogs.store');
+            Route::get('/edit',[BlogController::class,'edit'])->name('blogs.edit');
+            Route::get('/update',[BlogController::class,'update'])->name('blogs.update');
+            Route::get('/delete',[BlogController::class,'delete'])->name('blogs.delete');
+
+        });
+
+        Route::group(['prefix'=>'students','namespace'=>'Admin'],function (){
+            Route::get('/',[StudentController::class,'index'])->name('students');
+            Route::get('/create',[StudentController::class,'create'])->name('students.create');
+            Route::post('/store',[StudentController::class,'store'])->name('students.store');
+            Route::get('/edit/{id}',[StudentController::class,'edit'])->name('students.edit');
+            Route::post('/update',[StudentController::class,'update'])->name('students.update');
+            Route::get('/delete',[StudentController::class,'delete'])->name('students.delete');
+        });
     });
 });
 

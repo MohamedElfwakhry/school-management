@@ -54,6 +54,25 @@ return [
     'addClassrooms' => 'اضافة فصل',
 
 
+//parents
+    'parents' => 'اولياء الامور',
+    'addParent' => 'اضف ولى امر جديد',
+    'viewAllParents' => 'كل اولياء الامور',
+
+    //blogs
+    'blogs' => 'مدونات',
+    'addBlog' => 'اضف مدونه جديدة',
+    'viewAllBlogs' => 'كل المدونات',
+    'address' => 'العنوان',
+    'notes' => 'ملاحظات',
+    'images' => 'الصور',
 
 
+    //students
+    'students' =>'الطلاب',
+    'addStudent'=>'اضف طالب جديد',
+    'viewAllStudents' => 'كل الطلاب',
+
+    'personalInformation'=>'المعلومات الشخصيه',
+    'information'=>'معلومات عن الطالب',
 ];

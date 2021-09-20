@@ -1,6 +1,12 @@
 @extends('layouts.dashboard')
 @section('css')
-    <link href="{{asset('assets/vendors/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+    @if(LaravelLocalization::getCurrentLocale() =='en')
+        <link href="{{asset('assets/vendors/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+
+    @elseif(LaravelLocalization::getCurrentLocale() =='ar')
+        <link href="{{asset('assets/vendors/custom/datatables/datatables.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
+
+    @endif
 
 @endsection
 @section('content')
@@ -14,7 +20,7 @@
 											<i class="kt-font-brand flaticon2-line-chart"></i>
 										</span>
                     <h3 class="kt-portlet__head-title">
-                        {{__('grade.grades')}}
+                        {{__('lang.teachers')}}
                         <small>Datatable initialized from HTML table</small>
                     </h3>
                 </div>
@@ -26,9 +32,9 @@
                                 <span class="fa-stack fa" style="color:white;"><i class="fas fa-plus"></i></span>
                                 {{__('sidebar.newCategory')}}
                             </button>--}}
-                            <a href="#" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#exampleModalLong">
+                            <a href="{{route('teachers.create')}}" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#exampleModalLong">
                                 <i class="la la-plus"></i>
-                                {{__('grade.addGrade')}}
+                                {{__('lang.addTeacher')}}
                             </a>
                             <button id="delete" class="btn btn-danger font-weight-bolder">
                                 <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -48,105 +54,6 @@
             <!--begin::Modal-->
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"> {{__('grade.addGrade')}}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <!--begin::Form-->
-
-                            <form class="kt-form" enctype="multipart/form-data" action="{{route('grades.store')}}" method="POST" >
-                                @csrf
-                                <div class="kt-portlet__body">
-                                    <div class="kt-section kt-section--first">
-
-                                {{--        <div class="form-group">
-                                            <label>{{__('category.arName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.arName')}}" name="name_ar">
-                                            <span class="form-text text-muted">{{__('lang.arSpan')}}</span>
-                                            @error('name_ar')
-                                            <span class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>{{__('category.enName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.enName')}}" name="name_en">
-                                            <span class="form-text text-muted">{{__('lang.enSpan')}}</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>{{__('grade.notes')}}</label>
-                                            <textarea type="text" class="form-control" placeholder="{{__('grade.notes')}}" name="notes"></textarea>
-                                        </div>--}}
-
-
-                                        <div id="kt_repeater_1">
-                                            <div class="form-group form-group-last row" id="kt_repeater_1">
-                                                <div data-repeater-list="List_Classes" class="col-lg-12">
-                                                    <div data-repeater-item class="form-group row align-items-center">
-
-
-                                                        <div class="col-md-5">
-                                                            <div class="kt-form__group--inline">
-                                                                <div class="kt-form__label">
-                                                                    <label>Name:</label>
-                                                                </div>
-                                                                <div class="kt-form__control">
-                                                                    <input type="text" class="form-control" placeholder="Enter full name" name="name_ar">
-                                                                </div>
-                                                            </div>
-                                                            <div class="d-md-none kt-margin-b-10"></div>
-                                                        </div>
-
-
-                                                        <div class="col-md-5">
-                                                            <div class="kt-form__group--inline">
-                                                                <div class="kt-form__label">
-                                                                    <label class="kt-label m-label--single">Number:</label>
-                                                                </div>
-                                                                <div class="kt-form__control">
-                                                                    <input type="text" class="form-control" placeholder="Enter contact number" name="name_en">
-                                                                </div>
-                                                            </div>
-                                                            <div class="d-md-none kt-margin-b-10"></div>
-                                                        </div>
-
-                                                        <div class="col-md-2">
-                                                            <a href="javascript:;" data-repeater-delete class="btn-sm btn btn-label-danger btn-bold">
-                                                                <i class="la la-trash-o"></i>
-                                                                Delete
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-last row">
-                                                <label class="col-lg-2 col-form-label"></label>
-                                                <div class="col-lg-4">
-                                                    <a href="javascript:;" data-repeater-create class="btn btn-bold btn-sm btn-label-brand">
-                                                        <i class="la la-plus"></i> Add
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
 
             <div class="modal fade modal-edit" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -177,34 +84,38 @@
                                 <thead>
                                 <tr>
                                     <th title="Field #1">#</th>
-                                    <th title="Field #2">{{__('category.arName')}}</th>
-                                    <th title="Field #3">{{__('category.enName')}}</th>
-                                    <th title="Field #4">{{__('grade.notes')}}</th>
+                                    <th title="Field #2">{{__('lang.address')}}</th>
+                                    <th title="Field #3">{{__('lang.notes')}}</th>
+                                    <th style="max-width:300px;" title="Field #3">{{__('lang.images')}}</th>
                                     <th title="Field #5">{{__('category.actions')}}</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @isset($grades)
-                                    @foreach($grades as $grade)
+                                    @foreach($blogs as $blog)
                                         <tr class="data-row">
-                                            <td scope="row">{{$grade -> id}}</td>
-                                            <td class="name_ar">{{$grade->name_ar}}</td>
-                                            <td class="name_en">{{$grade->name_en}}</td>
-                                            <td class="name_en">{{$grade->notes}}</td>
+                                            <td scope="row">{{$blog -> id}}</td>
+                                            <td class="name_ar">{{$blog->address}}</td>
+                                            <td class="name_en">{{$blog->notes}}</td>
+
+                                            <td class="name_en">@foreach($blog->blogImages as $image)<img width="100" height="100" src="{{$image->image}}">                                            @endforeach
+                                            </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary edit-product"
-                                                        data-id="{{$grade -> id}}">
+                                                <a href="{{url('dashboard/classroom-blogs/edit/'.$blog->id)}}" class="btn btn-primary">
                                                     Edit
                                                     <i class="la la-edit"></i>
-                                                </button>
+                                                </a>
 
                                             </td>
                                         </tr>
                                     @endforeach
-                                @endisset
                                 </tbody>
                             </table>
+                            <ul class="pagination justify-content-center">
+                                {!! $blogs->links() !!}
+
+                            </ul>
+
                         </div>
                     </div>
 
@@ -215,6 +126,7 @@
             </div>
 
         </div>
+
     </div>
 
 @endsection
@@ -222,7 +134,7 @@
 @section('js')
     <script src="{{asset('assets/vendors/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
-    <script src="{{asset('assets/js/demo1/pages/crud/forms/widgets/form-repeater.js')}}" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
     //delete
     <script>
@@ -323,26 +235,5 @@
         });
     </script>
 
-    //edit
-    <script>
-        $(".edit-product").click(function(){
-            var id=$(this).data('id')
-            /*
-                        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            */
-            $.ajax({
-                type: "GET",
-                url: "{{route('grades.edit')}}",
-                data: {"id":id},
-                success: function (data) {
-                    $(".modal-edit .modal-body").html(data)
-                    $(".modal-edit").modal('show')
-                    $(".modal-edit").on('hidden.bs.modal',function (e){
-                        //   $('.bs-edit-modal-lg').empty();
-                        $('.modal-edit').hide();
-                    })
-                }
-            })
-        })
-    </script>
+
 @endsection

@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TeacherMiddleware
+class ParentMiddleware
 {
     /**
      * Handle an incoming request.
@@ -21,10 +21,10 @@ class TeacherMiddleware
 
         if (Auth::guard("admin")->check()) {
             return $next($request);
-        }elseif(Auth::guard("teacher")->check()){
+        }elseif(Auth::guard("parent")->check()){
             return $next($request);
         }elseif(Auth::user() == null) {
-            return redirect() -> route('permision');
+            return redirect() -> route('get.admin.login');
         }else{
             return redirect() -> route('permision');
         }

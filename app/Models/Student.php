@@ -22,6 +22,23 @@ class Student extends Authenticatable
         'updated_at'
     ];
     public $timestamps = true;
+    public function getPhotoAttribute($image)
+    {
+        if (!empty($image)) {
+            return asset('uploads/Teacher') . '/' . $image;
+        }
+        return asset('uploads/image.jpg');
+
+    }
+
+    public function setPhotoAttribute($image)
+    {
+        if (is_file($image)) {
+            $imageFields = upload($image, 'Teacher');
+            $this->attributes['photo'] = $imageFields;
+        }
+    }
+
     public function grade()
     {
         return $this->belongsTo(Grade::class, 'grade_id');

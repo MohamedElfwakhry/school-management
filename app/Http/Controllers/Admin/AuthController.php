@@ -19,6 +19,8 @@ class AuthController extends Controller
             return redirect() -> route('dashboard');
         }elseif (auth()->guard('teacher')->attempt(['email'=>$request->input('email'),'password'=>$request->input('password')])){
             return redirect() -> route('teachers');
+        }elseif (auth()->guard('parent')->attempt(['email'=>$request->input('email'),'password'=>$request->input('password')])){
+            return redirect() -> route('students-classroom');
         }
         else
             return redirect()->back()->with(['error'=> 'هناك خطا ما'])->withInput($request->all());
