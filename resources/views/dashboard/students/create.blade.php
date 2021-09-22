@@ -90,7 +90,6 @@
                                     </div>
                                 @endif
                                 @isset($parents)
-
                                 <div class="form-group">
                                     <label for="exampleSelect1">{{__('grade.grades')}}</label>
                                     <select class="form-control" name="parent_id">
@@ -124,6 +123,7 @@
 @endsection
 @section('js')
     <script src="{{asset('assets/dropify/js/dropify.js' )}}"></script>
+
     <script type="text/javascript">
         $(document).ready(function(){
             // Basic
@@ -174,7 +174,7 @@
             */
             $.ajax({
                 type: "GET",
-                url: "{{route('teachers.getClassroom')}}",
+                url: "{{route('teachers.classroom')}}",
                 data: {"id":id},
                 success: function (data) {
 

@@ -65,26 +65,6 @@
                                 <div class="kt-portlet__body">
                                     <div class="kt-section kt-section--first">
 
-                                {{--        <div class="form-group">
-                                            <label>{{__('category.arName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.arName')}}" name="name_ar">
-                                            <span class="form-text text-muted">{{__('lang.arSpan')}}</span>
-                                            @error('name_ar')
-                                            <span class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>{{__('category.enName')}}</label>
-                                            <input type="text" class="form-control" placeholder="{{__('category.enName')}}" name="name_en">
-                                            <span class="form-text text-muted">{{__('lang.enSpan')}}</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>{{__('grade.notes')}}</label>
-                                            <textarea type="text" class="form-control" placeholder="{{__('grade.notes')}}" name="notes"></textarea>
-                                        </div>--}}
-
-
                                         <div id="kt_repeater_1">
                                             <div class="form-group form-group-last row" id="kt_repeater_1">
                                                 <div data-repeater-list="List_Classes" class="col-lg-12">
@@ -94,10 +74,10 @@
                                                         <div class="col-md-5">
                                                             <div class="kt-form__group--inline">
                                                                 <div class="kt-form__label">
-                                                                    <label>Name:</label>
+                                                                    <label>{{__('category.arName')}}</label>
                                                                 </div>
                                                                 <div class="kt-form__control">
-                                                                    <input type="text" class="form-control" placeholder="Enter full name" name="name_ar">
+                                                                    <input type="text" class="form-control" placeholder="{{__('category.arName')}}" name="name_ar">
                                                                 </div>
                                                             </div>
                                                             <div class="d-md-none kt-margin-b-10"></div>
@@ -107,10 +87,10 @@
                                                         <div class="col-md-5">
                                                             <div class="kt-form__group--inline">
                                                                 <div class="kt-form__label">
-                                                                    <label class="kt-label m-label--single">Number:</label>
+                                                                    <label class="kt-label m-label--single">{{__('category.enName')}}</label>
                                                                 </div>
                                                                 <div class="kt-form__control">
-                                                                    <input type="text" class="form-control" placeholder="Enter contact number" name="name_en">
+                                                                    <input type="text" class="form-control" placeholder="{{__('category.enName')}}" name="name_en">
                                                                 </div>
                                                             </div>
                                                             <div class="d-md-none kt-margin-b-10"></div>
@@ -179,7 +159,6 @@
                                     <th title="Field #1">#</th>
                                     <th title="Field #2">{{__('category.arName')}}</th>
                                     <th title="Field #3">{{__('category.enName')}}</th>
-                                    <th title="Field #4">{{__('grade.notes')}}</th>
                                     <th title="Field #5">{{__('category.actions')}}</th>
 
                                 </tr>
@@ -191,7 +170,6 @@
                                             <td scope="row">{{$grade -> id}}</td>
                                             <td class="name_ar">{{$grade->name_ar}}</td>
                                             <td class="name_en">{{$grade->name_en}}</td>
-                                            <td class="name_en">{{$grade->notes}}</td>
                                             <td>
                                                 <button type="button" class="btn btn-primary edit-product"
                                                         data-id="{{$grade -> id}}">

@@ -75,4 +75,10 @@ return [
 
     'personalInformation'=>'المعلومات الشخصيه',
     'information'=>'معلومات عن الطالب',
+
+    //subjects
+    'subjects' =>'المواد',
+    'addSubject' =>'اضف مادة',
+    'gradesWithSubject'=>'السنوات الدراسية التى تحتوى على هذه المادة'
+
 ];

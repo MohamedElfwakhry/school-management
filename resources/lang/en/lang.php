@@ -79,4 +79,9 @@ return [
     'information'=>'Information',
 
 
+    //subjects
+    'subjects' =>'Subjects',
+    'addSubject' =>'Add Subject',
+    'gradesWithSubject'=>'Grades That Have this subject'
+
 ];

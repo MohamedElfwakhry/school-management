@@ -39,16 +39,21 @@ class ClassroomController extends Controller
      *
      * @return Response
      */
-    public function store(ClassroomRequest $request)
+    public function store(Request $request)
     {
-        if (isset($request->validator) && $request->validator->fails()) {
+        /*if (isset($request->validator) && $request->validator->fails()) {
             return redirect()->route('classrooms')->with(['error' => 'حدث خط']);
         }
+        return $request;*/
         try {
-            $classroom = new Classroom();
-            $classroom-> name = $request ->name;
-            $classroom->grade_id = $request->grade_id;
-            $classroom->save();
+            $List_Classes = $request->List_Classes;
+            foreach ($List_Classes as $classroom){
+                $classrooom = new Classroom();
+                $classrooom-> name = $classroom['name'];
+                $classrooom->grade_id = $classroom['grade_id'];
+                $classrooom->save();
+
+            }
 
             return redirect()->route('classrooms')->with(['success'=>'تم التحديث بنجاح']);
         }catch (\Exception $exception){

@@ -44,6 +44,8 @@ class StudentController extends Controller
             return view('dashboard.students.create',compact(['grades']));
 
         }else{
+            $grades = Grade::all();
+
             $parents = ParentStudent::all();
             return view('dashboard.students.create',compact(['grades','parents']));
 

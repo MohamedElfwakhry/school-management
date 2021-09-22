@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TeacherRequest;
 use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class TeacherController extends Controller
+class ExamController extends Controller
 {
+    //
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +31,7 @@ class TeacherController extends Controller
     public function create()
     {
         $grades = Grade::with('classroom')->get();
-        return view('dashboard.teachers.create',compact(['grades']));
+        return view('dashboard.exams.create',compact(['grades']));
     }
 
     /**

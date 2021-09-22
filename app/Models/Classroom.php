@@ -28,7 +28,8 @@ class Classroom extends Model
 
     public function teacher()
     {
-        return $this->hasOne(Teacher::class, 'classroom_id');
+        return $this->belongsToMany(Teacher::class,'teacher_classroom','classroom_id','teacher_id');
+
     }
 
     public function blog()

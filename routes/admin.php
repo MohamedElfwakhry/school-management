@@ -4,11 +4,13 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ClassroomController;
+use App\Http\Controllers\Admin\ExamController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\GradeController;
 use App\Http\Controllers\Admin\ParentController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         })->name('permision');
 
         Route::get('/get-classroom',[TeacherController::class,'getClassrooms'])->name('teachers.getClassroom');
+        Route::get('/get-classrooms',[TeacherController::class,'getClassroom'])->name('teachers.classroom');
 
     });
 
@@ -35,8 +38,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
         Route::group(['prefix'=>'classroom-blogs','namespace'=>'Admin'],function (){
             Route::get('/',[BlogController::class,'index'])->name('classroom-blogs');
-            Route::get('/create-blog',[BlogController::class,'create'])->name('classroom-blogs.create');
-            Route::post('/store',[BlogController::class,'store'])->name('classroom-blogs.store');
+
             Route::get('/edit/{id}',[BlogController::class,'edit'])->name('classroom-blogs.edit');
             Route::post('/update',[BlogController::class,'update'])->name('classroom-blogs.update');
             Route::get('/delete',[BlogController::class,'delete'])->name('classroom-blogs.delete');
@@ -84,6 +86,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
     });
     Route::group(['prefix'=>'dashboard','namespace' => 'Admin', 'middleware' => 'auth:admin'], function(){
         Route::get('logout', [AuthController::class,'logOut'])->name('admin.logout');
+        Route::get('/create-blog',[BlogController::class,'create'])->name('classroom-blogs.create');
+        Route::post('/store',[BlogController::class,'store'])->name('classroom-blogs.store');
 
         Route::group(['prefix'=>'grades','namespace'=>'Admin'],function (){
             Route::get('/',[GradeController::class,'index'])->name('grades');
@@ -91,6 +95,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
             Route::get('/edit',[GradeController::class,'edit'])->name('grades.edit');
             Route::get('/update',[GradeController::class,'update'])->name('grades.update');
             Route::get('/delete',[GradeController::class,'delete'])->name('grades.delete');
+
+        });
+        Route::group(['prefix'=>'subjects','namespace'=>'Admin'],function (){
+            Route::get('/',[SubjectController::class,'index'])->name('subjects');
+            Route::post('/store',[SubjectController::class,'store'])->name('subjects.store');
+            Route::get('/edit',[SubjectController::class,'edit'])->name('subjects.edit');
+            Route::post('/update',[SubjectController::class,'update'])->name('subjects.update');
+            Route::get('/delete',[SubjectController::class,'delete'])->name('subjects.delete');
 
         });
         Route::group(['prefix'=>'classrooms','namespace'=>'Admin'],function (){
@@ -127,6 +139,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
             Route::get('/edit/{id}',[StudentController::class,'edit'])->name('students.edit');
             Route::post('/update',[StudentController::class,'update'])->name('students.update');
             Route::get('/delete',[StudentController::class,'delete'])->name('students.delete');
+        });
+        Route::group(['prefix'=>'exams','namespace'=>'Admin'],function (){
+            Route::get('/',[ExamController::class,'index'])->name('exams');
+            Route::get('/create',[ExamController::class,'create'])->name('exams.create');
+            Route::post('/store',[ExamController::class,'store'])->name('exams.store');
+            Route::get('/edit/{id}',[ExamController::class,'edit'])->name('exams.edit');
+            Route::post('/update',[ExamController::class,'update'])->name('exams.update');
+            Route::get('/delete',[ExamController::class,'delete'])->name('exams.delete');
         });
     });
 });

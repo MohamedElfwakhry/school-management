@@ -14,8 +14,7 @@
 											<i class="kt-font-brand flaticon2-line-chart"></i>
 										</span>
                     <h3 class="kt-portlet__head-title">
-                        {{__('lang.classrooms')}}
-                        <small>Datatable initialized from HTML table</small>
+                        {{__('lang.subjects')}}
                     </h3>
                 </div>
 
@@ -28,7 +27,7 @@
                             </button>--}}
                             <a href="#" class="btn btn-brand btn-elevate btn-icon-sm" data-toggle="modal" data-target="#exampleModalLong">
                                 <i class="la la-plus"></i>
-                                {{__('lang.addClassrooms')}}
+                                {{__('lang.addSubject')}}
                             </a>
                             <button id="delete" class="btn btn-danger font-weight-bolder">
                                 <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -49,10 +48,10 @@
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"> {{__('lang.addClassrooms')}}</h5>
+                            <h5 class="modal-title" id="exampleModalLongTitle"> {{__('lang.addSubject')}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -60,68 +59,54 @@
                         <div class="modal-body">
                             <!--begin::Form-->
 
-                            <form class="kt-form" enctype="multipart/form-data" action="{{route('classrooms.store')}}" method="POST" >
+                            <form class="kt-form" enctype="multipart/form-data" action="{{route('subjects.store')}}" method="POST" >
                                 @csrf
                                 <div class="kt-portlet__body">
                                     <div class="kt-section kt-section--first">
+
                                         <div id="kt_repeater_1">
                                             <div class="form-group form-group-last row" id="kt_repeater_1">
-                                                <div data-repeater-list="List_Classes" class="col-lg-12">
-                                                    <div data-repeater-item class="form-group row align-items-center">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group row align-items-center">
 
 
-                                                        <div class="col-md-5">
-                                                                <label>{{__('category.arName')}}</label>
-                                                                <input type="text" class="form-control" placeholder="{{__('category.arName')}}" name="name" required>
-                                                            <div class="d-md-none kt-margin-b-10"></div>
-                                                        </div>
-
-
-                                                        <div class="col-md-5">
-                                                            <div class="dropdown">
-                                                                Select Grade:
-                                                                <select name="grade_id" class="select form-control">
-                                                                    @foreach($grades as $grade)
-                                                                        <option value="{{$grade -> id }}">
-                                                                            @if(LaravelLocalization::getCurrentLocale()=='en')
-                                                                                {{$grade -> name_en}}
-                                                                            @else
-                                                                                {{$grade -> name_ar}}
-                                                                            @endif
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-
+                                                        <div class="col-md-6">
+                                                            <div class="kt-form__group--inline">
+                                                                <div class="kt-form__label">
+                                                                    <label>Name:</label>
+                                                                </div>
+                                                                <div class="kt-form__control">
+                                                                    <input type="text" class="form-control" placeholder="Enter full name" name="name">
+                                                                </div>
                                                             </div>
-
                                                             <div class="d-md-none kt-margin-b-10"></div>
                                                         </div>
 
-                                                        <div class="col-md-2">
-                                                            <a href="javascript:;" data-repeater-delete class="btn-sm btn btn-label-danger btn-bold">
-                                                                <i class="la la-trash-o"></i>
-                                                                Delete
-                                                            </a>
+                                                        <div class="col-md-6">
+                                                            <label>{{__('grade.grades')}}</label>
+                                                            <div class="kt-checkbox-inline">
+                                                                @foreach($grades as $grade)
+
+                                                                <label class="kt-checkbox">
+                                                                    <input type="checkbox" name="grades[]" value="{{$grade->id}}">
+                                                                    {{$grade->name_ar}}
+                                                                    <span></span>
+                                                                </label>
+
+                                                                @endforeach
+                                                            </div>
+                                                            <span class="form-text text-muted">{{__('lang.gradesWithSubject')}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-last row">
-                                                <label class="col-lg-2 col-form-label"></label>
-                                                <div class="col-lg-4">
-                                                    <a href="javascript:;" data-repeater-create class="btn btn-bold btn-sm btn-label-brand">
-                                                        <i class="la la-plus"></i> Add
-                                                    </a>
-                                                </div>
-                                            </div>
                                         </div>
-
 
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary" id="kt_blockui_4_1" >Save changes</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
                                 </div>
                             </form>
                         </div>
@@ -160,27 +145,25 @@
                                 <tr>
                                     <th title="Field #1">#</th>
                                     <th title="Field #2">{{__('category.arName')}}</th>
-                                    <th title="Field #4">{{__('grade.grades')}}</th>
+                                    <th title="Field #3">{{__('grade.grades')}}</th>
                                     <th title="Field #5">{{__('category.actions')}}</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @isset($classrooms)
-                                    @foreach($classrooms as $classroom)
+                                @isset($subjects)
+                                    @foreach($subjects as $subject)
                                         <tr class="data-row">
-                                            <td scope="row">{{$classroom -> id}}</td>
-                                            <td class="name_ar">{{$classroom->name}}</td>
+                                            <td scope="row">{{$subject -> id}}</td>
+                                            <td class="name_ar">{{$subject->name}}</td>
                                             <td class="name_en">
-                                                @if(LaravelLocalization::getCurrentLocale()=='en')
-                                                    {{$classroom->grade->name_en}}
-                                                @else
-                                                    {{$classroom->grade->name_ar}}
-                                                @endif
+                                                @foreach($subject->grade as $grade)
+                                                    <h6 class="kt-font-brand">{{$grade->name_ar}}</h6>
+                                                @endforeach
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-primary edit-product"
-                                                        data-id="{{$classroom -> id}}">
+                                                        data-id="{{$subject -> id}}">
                                                     Edit
                                                     <i class="la la-edit"></i>
                                                 </button>
@@ -209,7 +192,6 @@
     <script src="{{asset('assets/vendors/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
     <script src="{{asset('assets/js/demo1/pages/crud/forms/widgets/form-repeater.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/js/demo1/pages/components/extended/blockui.js')}}" type="text/javascript"></script>
 
     //delete
     <script>
@@ -259,7 +241,7 @@
                     if (result.value) {
                         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
-                            url:'{{route("classrooms.delete")}}',
+                            url:'{{route("subjects.delete")}}',
                             type:"get",
                             data:{'id':dataList,_token: CSRF_TOKEN},
                             dataType:"JSON",
@@ -319,7 +301,7 @@
             */
             $.ajax({
                 type: "GET",
-                url: "{{route('classrooms.edit')}}",
+                url: "{{route('subjects.edit')}}",
                 data: {"id":id},
                 success: function (data) {
                     $(".modal-edit .modal-body").html(data)

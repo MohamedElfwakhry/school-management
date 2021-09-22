@@ -15,8 +15,6 @@ class Teacher extends Authenticatable
         'email',
         'password',
         'photo',
-        'classroom_id',
-        'grade_id',
         'created_at',
         'updated_at'
     ];
@@ -38,13 +36,8 @@ class Teacher extends Authenticatable
             $this->attributes['photo'] = $imageFields;
         }
     }
+    public function classroom(){
+        return $this->belongsToMany(Classroom::class,'teacher_classroom','teacher_id','classroom_id');
+    }
 
-    public function classroom()
-    {
-        return $this->belongsTo(Classroom::class, 'classroom_id');
-    }
-    public function grade()
-    {
-        return $this->belongsTo(Grade::class, 'grade_id');
-    }
 }

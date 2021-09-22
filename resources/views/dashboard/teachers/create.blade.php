@@ -47,23 +47,32 @@
                                 <label for="exampleInputPassword1">{{__('lang.name')}}</label>
                                 <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Name" name="name">
                             </div>
-                            <div class="form-group">
+
+                            <div class="col-lg-12">
+
                                 <label for="exampleSelect1">{{__('grade.grades')}}</label>
-                                <select class="form-control" id="grade" name="grade_id">
                                     @isset($grades)
                                         @foreach($grades as $grade)
-                                            <option value="{{$grade->id}}">{{$grade->name_ar}}</option>
 
+                                        <div class="form-group">
+                                            <label>{{$grade->name_en}}</label>
+                                            <div class="kt-checkbox-inline">
+                                                Classes:
+                                                @foreach($grade->classroom as $classroom)
+
+                                                    <label class="kt-checkbox">
+                                                        <input type="checkbox" name="grades[]" value="{{$classroom->id}}">
+                                                        {{$classroom->name}}
+                                                        <span></span>
+                                                    </label>
+
+                                                @endforeach
+                                            </div>
+                                        </div>
                                         @endforeach
                                     @endisset
-                                </select>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleSelect1">{{__('lang.classrooms')}}</label>
-                                <select class="form-control" id="classroom" name="classroom_id">
 
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <label>{{__('category.photo')}}</label>
                                 <input type="file" id="input-file-now-custom-1" class="dropify"  name="photo" multiple>
@@ -89,6 +98,7 @@
 @endsection
 @section('js')
     <script src="{{asset('assets/dropify/js/dropify.js' )}}"></script>
+
     <script type="text/javascript">
         $(document).ready(function(){
             // Basic
@@ -133,7 +143,7 @@
     </script>
 
     <script>
-        $("#grade").on('keyup , click , change',function(){
+        $(".grade").on('keyup , click , change',function(){
             var id=$(this).val()
             /*
                         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -144,11 +154,12 @@
                 data: {"id":id},
                 success: function (data) {
 
-                    $("#classroom").html(data);
+                    $(".classroom").html(data);
 
                 }
             })
         })
     </script>
+
 
 @endsection

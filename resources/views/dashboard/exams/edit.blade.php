@@ -20,6 +20,10 @@
                 <input type="text" class="form-control" placeholder="{{__('category.enName')}}" name="name_en" value="{{$grade->name_en}}">
                 <span class="form-text text-muted">{{__('lang.enSpan')}}</span>
             </div>
+            <div class="form-group">
+                <label>{{__('grade.notes')}}</label>
+                <textarea type="text" class="form-control" placeholder="{{__('grade.notes')}}" name="notes" >{{$grade->notes}}</textarea>
+            </div>
 
         </div>
     </div>
