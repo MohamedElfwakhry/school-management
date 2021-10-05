@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Exam;
 use App\Models\Grade;
 use App\Models\ParentStudent;
+use App\Models\Quize;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -124,6 +126,33 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
+
+    }
+
+    public function getExams(){
+        $exams = Exam::with('teacher')->get();
+        return view('dashboard.dashboard.student.exam.index',compact('exams'));
+    }
+
+    public function exam($id){
+        $data = Exam::with('quize')->find($id);
+        return view('dashboard.dashboard.student.exam.exam',compact('data'));
+
+    }
+
+    public function postExam(Request $request){
+        $List_Classes = $request->List_Classes;
+        $points = 0;
+        foreach ($List_Classes as $answer){
+            $question = Quize::find($answer['id']);
+            if ($question->right_answer == $answer['answer']){
+                $point = $question->points;
+                $points =+ $point;
+            }
+        }
+        $student = Student::find(4);
+        $student-> exam()->attach($request->examId,['points'=>$points]);
+        return redirect()->route('teachers')->with(['success'=>'تم التحديث بنجاح']);
 
     }
 }

@@ -70,7 +70,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
     });
 
+    Route::group(['prefix'=>'dashboard','namespace' => 'Admin', 'middleware' => 'auth:student'], function() {
 
+    });
     Route::group(['prefix'=>'dashboard','namespace' => 'Admin', 'middleware' => ['teacher']], function(){
         /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
         Route::group(['prefix'=>'teachers','namespace'=>'Admin'],function (){
@@ -139,6 +141,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
             Route::get('/edit/{id}',[StudentController::class,'edit'])->name('students.edit');
             Route::post('/update',[StudentController::class,'update'])->name('students.update');
             Route::get('/delete',[StudentController::class,'delete'])->name('students.delete');
+
+            Route::group(['prefix'=>'exams'],function (){
+                Route::get('/',[StudentController::class,'getExams'])->name('students.exams');
+                Route::get('/exam/{id}',[StudentController::class,'exam'])->name('enter.exam');
+                Route::post('/exam/{id}',[StudentController::class,'postExam'])->name('post.exam');
+
+            });
         });
         Route::group(['prefix'=>'exams','namespace'=>'Admin'],function (){
             Route::get('/',[ExamController::class,'index'])->name('exams');
@@ -148,6 +157,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
             Route::post('/update',[ExamController::class,'update'])->name('exams.update');
             Route::get('/delete',[ExamController::class,'delete'])->name('exams.delete');
         });
+
     });
 });
 

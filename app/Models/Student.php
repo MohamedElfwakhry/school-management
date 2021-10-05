@@ -53,4 +53,9 @@ class Student extends Authenticatable
     {
         return $this->belongsTo(Classroom::class, 'classroom_id');
     }
+
+    public function exam(){
+        return $this->belongsToMany(Exam::class,'student_exam','student_id','exam_id')
+            ->withPivot('points');
+    }
 }

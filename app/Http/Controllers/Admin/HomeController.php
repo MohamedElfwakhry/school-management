@@ -14,8 +14,11 @@ class HomeController extends Controller
         if (Auth::guard('parent')->check()!=null){
             return view('dashboard.dashboard.parent');
 
-        }else{
-            return view('dashboard.main');
+        }elseif (Auth::guard('student')->check()){
+            return view('dashboard.dashboard.student');
+        }
+        else{
+            return view('dashboard.dashboard.student');
 
         }
     }

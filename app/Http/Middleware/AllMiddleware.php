@@ -19,7 +19,7 @@ class AllMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::user() !=null){
+        if (Auth::guard('student')->check()!=null){
             return $next($request);
         }else{
             return redirect() -> route('permision');

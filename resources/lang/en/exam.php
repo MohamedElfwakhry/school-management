@@ -7,6 +7,9 @@ return [
      |--------------------------------------------------------------------------
      |
      */
+    'exams' =>'Exams',
+    'addNewExam'=>'Add New Exam',
+    'allExams' =>'All Exams',
     'name' =>'Exam Name',
     'question' => 'Question',
     'answer' => 'Answer',
@@ -14,6 +17,9 @@ return [
     'answer2' => 'Answer 2',
     'answer3' => 'Answer 4',
     'answer4' => 'Answer 4',
-    'points' => 'Points'
+    'points' => 'Points',
+    'subjects'=>'Subjects',
+    'time' => 'Time',
+    'allExamsBio' =>'check all exams that you have passed them'
 
 ];

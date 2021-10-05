@@ -84,18 +84,16 @@
                                 <thead>
                                 <tr>
                                     <th title="Field #1">#</th>
-                                    <th title="Field #2">{{__('lang.email')}}</th>
                                     <th title="Field #3">{{__('lang.name')}}</th>
                                     <th title="Field #5">{{__('category.actions')}}</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @isset($teachers)
-                                    @foreach($teachers as $teacher)
+                                @isset($exams)
+                                    @foreach($exams as $teacher)
                                         <tr class="data-row">
                                             <td scope="row">{{$teacher -> id}}</td>
-                                            <td class="name_ar">{{$teacher->email}}</td>
                                             <td class="name_en">{{$teacher->name}}</td>
 
                                             <td>

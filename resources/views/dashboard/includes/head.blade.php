@@ -72,6 +72,10 @@
     <link href="{{asset('assets/css/demo1/skins/header/menu/light.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/demo1/skins/brand/dark.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/demo1/skins/aside/dark.css')}}" rel="stylesheet" type="text/css" />
+
+    @if(auth()->guard('student')->check()!=null)
+        <link href="{{asset('assets/css/demo1/skins/aside/student-dark.css')}}" rel="stylesheet" type="text/css" />
+    @endif
 @elseif(LaravelLocalization::getCurrentLocale() =='ar')
     <link href="{{asset('assets/css/demo1/style.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
 

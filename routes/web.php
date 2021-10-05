@@ -17,7 +17,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 {
     /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
     Route::get('/', function () {
-        return view('welcome');
+        return view('front.home');
     });
     Route::get('/front', function () {
         return view('welcome');

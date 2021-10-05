@@ -50,7 +50,7 @@ return [
         ],
         'student' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'students',
         ],
         'parent' => [
             'driver' => 'session',
@@ -88,7 +88,7 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Teacher::class,
         ],
-        'student' => [
+        'students' => [
             'driver' => 'eloquent',
             'model' => App\Models\Student::class,
         ],

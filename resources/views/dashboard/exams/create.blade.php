@@ -30,26 +30,70 @@
                     </div>
 
                     <!--begin::Form-->
-                    <form class="kt-form" enctype="multipart/form-data" action="{{route('teachers.store')}}" method="POST">
+                    <form class="kt-form" enctype="multipart/form-data" action="{{route('exams.store')}}" method="POST">
                         @csrf
                         <div class="kt-portlet__body">
 
                             <div class="form-group">
-                                <label for="exampleInputPassword1">{{__('lang.name')}}</label>
+                                <label for="exampleInputPassword1">{{__('exam.question')}}</label>
                                 <input type="text" class="form-control" placeholder="Name" name="name">
                             </div>
                             <div class="form-group">
-                                <label for="exampleSelect1">{{__('grade.grades')}}</label>
-                                <select class="form-control" id="grade" name="grade_id">
-                                    @isset($grades)
-                                        @foreach($grades as $grade)
-                                            <option value="{{$grade->id}}">{{$grade->name_ar}}</option>
+                                <label for="exampleInputPassword1">{{__('exam.time')}}</label>
+                                <input type="number" class="form-control" placeholder="Time" name="time">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleSelect1">{{__('grade.grades')}}</label>
+                                        <select class="form-control" id="grade" name="grade_id">
+                                            @isset($grades)
+                                                @foreach($grades as $grade)
+                                                    <option value="{{$grade->id}}">{{$grade->name_ar}}</option>
 
-                                        @endforeach
-                                    @endisset
-                                </select>
+                                                @endforeach
+                                            @endisset
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleSelect1">{{__('exam.subjects')}}</label>
+                                        <select class="form-control" id="grade" name="subject_id">
+                                            @isset($subjects)
+                                                @foreach($subjects as $grade)
+                                                    <option value="{{$grade->id}}">{{$grade->name}}</option>
+
+                                                @endforeach
+                                            @endisset
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
+                            @isset($teachers)
+                                <div class="form-group">
+                                    <label for="exampleSelect1">{{__('lang.teachers')}}</label>
+                                    <select class="form-control" name="teacher_id">
+                                        @foreach($teachers as $grade)
+                                            <option value="{{$grade->id}}">{{$grade->name}}</option>
+
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endisset
+                            <div class="col-md-12" style="
+                                                                            padding-bottom: 10px;" >
+                                <div class="kt-form__group--inline">
+                                    <div class="kt-form__label">
+                                        <label class="kt-label m-label--single">{{__('exam.answer3')}}</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <input type="number" class="form-control" placeholder="{{__('exam.answer1')}}" name="points">
+                                    </div>
+                                </div>
+                                <div class="d-md-none kt-margin-b-10"></div>
+                            </div>
                             <div class="kt-section kt-section--first">
 
                                 <div id="kt_repeater_1">
@@ -58,75 +102,116 @@
                                             <div data-repeater-item class="form-group row align-items-center">
 
 
-                                                <div class="col-md-12">
+                                                <div class="col-md-12" style="margin-bottom:20px;">
                                                     <div class="kt-form__group--inline">
                                                         <div class="kt-form__label">
                                                             <label>{{__('exam.question')}}</label>
                                                         </div>
                                                         <div class="kt-form__control">
-                                                            <input type="text" class="form-control" placeholder="{{__('exam.name')}}" name="name_ar">
+                                                            <input type="text" class="form-control" placeholder="{{__('exam.name')}}" name="question">
                                                         </div>
                                                     </div>
                                                     <div class="d-md-none kt-margin-b-10"></div>
                                                 </div>
 
+                                                <div class="col-md-9">
+                                                    <div class="col-md-12" style="  padding-right: 30px;
+                                                                            padding-left: 30px;
+                                                                            padding-bottom: 10px;">
 
-                                                <div class="col-md-12">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label class="kt-label m-label--single">{{__('exam.answer1')}}</label>
+                                                        <div class="kt-form__group--inline">
+                                                            <div class="kt-form__label">
+                                                                <label class="kt-label m-label--single">{{__('exam.answer1')}}</label>
+                                                            </div>
+                                                            <div class="kt-form__control">
+                                                                <input type="text" class="form-control" placeholder="{{__('exam.answer')}}" name="answer1">
+                                                            </div>
                                                         </div>
-                                                        <div class="kt-form__control">
-                                                            <input type="text" class="form-control" placeholder="{{__('exam.answer')}}" name="name_en">
-                                                        </div>
+                                                        <div class="d-md-none kt-margin-b-10"></div>
                                                     </div>
-                                                    <div class="d-md-none kt-margin-b-10"></div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label>{{__('exam.answer2')}}</label>
+                                                    <div class="col-md-12" style="  padding-right: 30px;
+                                                                            padding-left: 30px;
+                                                                            padding-bottom: 10px;">
+                                                        <div class="kt-form__group--inline">
+                                                            <div class="kt-form__label">
+                                                                <label>{{__('exam.answer2')}}</label>
+                                                            </div>
+                                                            <div class="kt-form__control">
+                                                                <input type="text" class="form-control" placeholder="{{__('exam.answer')}}" name="answer2">
+                                                            </div>
                                                         </div>
-                                                        <div class="kt-form__control">
-                                                            <input type="text" class="form-control" placeholder="{{__('exam.answer')}}" name="name_ar">
-                                                        </div>
+                                                        <div class="d-md-none kt-margin-b-10"></div>
                                                     </div>
-                                                    <div class="d-md-none kt-margin-b-10"></div>
+
+
+                                                    <div class="col-md-12" style="  padding-right: 30px;
+                                                                            padding-left: 30px;
+                                                                            padding-bottom: 10px;">
+                                                        <div class="kt-form__group--inline">
+                                                            <div class="kt-form__label">
+                                                                <label class="kt-label m-label--single">{{__('exam.answer3')}}</label>
+                                                            </div>
+                                                            <div class="kt-form__control">
+                                                                <input type="text" class="form-control" placeholder="{{__('exam.answer1')}}" name="answer3">
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-md-none kt-margin-b-10"></div>
+                                                    </div>
+                                                    <div class="col-md-12" style="  padding-right: 30px;
+                                                                            padding-left: 30px;
+                                                                            padding-bottom: 10px;">
+                                                        <div class="kt-form__group--inline">
+                                                            <div class="kt-form__label">
+                                                                <label class="kt-label m-label--single">{{__('exam.answer4')}}</label>
+                                                            </div>
+                                                            <div class="kt-form__control">
+                                                                <input type="text" class="form-control" placeholder="{{__('exam.answer1')}}" name="answer4">
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-md-none kt-margin-b-10"></div>
+                                                    </div>
                                                 </div>
 
 
-                                                <div class="col-md-12">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label class="kt-label m-label--single">{{__('exam.answer3')}}</label>
-                                                        </div>
-                                                        <div class="kt-form__control">
-                                                            <input type="text" class="form-control" placeholder="{{__('exam.answer1')}}" name="name_en">
-                                                        </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="col-md-12" style="
+                                                                            padding-bottom: 10px;">
+                                                        <label for="exampleSelect1">Right Answer</label>
+                                                        <select class="form-control" name="right_answer" required>
+                                                            <option value="">Select Right answer ..</option>
+
+                                                            <option value="answer1">Answer 1</option>
+                                                            <option value="answer2">Answer 2</option>
+                                                            <option value="answer3">Answer 3</option>
+                                                            <option value="answer4">Answer 4</option>
+
+                                                        </select>
                                                     </div>
-                                                    <div class="d-md-none kt-margin-b-10"></div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label class="kt-label m-label--single">{{__('exam.answer4')}}</label>
+                                                    <div class="col-md-12" style="
+                                                                            padding-bottom: 10px;" >
+                                                        <div class="kt-form__group--inline">
+                                                            <div class="kt-form__label">
+                                                                <label class="kt-label m-label--single">{{__('exam.answer3')}}</label>
+                                                            </div>
+                                                            <div class="kt-form__control">
+                                                                <input type="number" class="form-control" placeholder="{{__('exam.answer1')}}" name="points">
+                                                            </div>
                                                         </div>
-                                                        <div class="kt-form__control">
-                                                            <input type="text" class="form-control" placeholder="{{__('exam.answer1')}}" name="name_en">
-                                                        </div>
+                                                        <div class="d-md-none kt-margin-b-10"></div>
                                                     </div>
-                                                    <div class="d-md-none kt-margin-b-10"></div>
+                                                    <div class="col-md-12 m-grid-col-center" style=" text-align: center;">
+                                                        <a href="javascript:;" data-repeater-delete class="btn-sm btn btn-label-danger btn-bold">
+                                                            <i class="la la-trash-o"></i>
+                                                            Delete
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <a href="javascript:;" data-repeater-delete class="btn-sm btn btn-label-danger btn-bold">
-                                                        <i class="la la-trash-o"></i>
-                                                        Delete
-                                                    </a>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group form-group-last row">
+                                    <div class="form-group form-group-last row " style=" text-align: center;">
                                         <label class="col-lg-2 col-form-label"></label>
                                         <div class="col-lg-4">
                                             <a href="javascript:;" data-repeater-create class="btn btn-bold btn-sm btn-label-brand">

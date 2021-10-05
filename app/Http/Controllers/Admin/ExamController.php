@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Classroom;
+use App\Models\Exam;
 use App\Models\Grade;
+use App\Models\Quize;
+use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +23,8 @@ class ExamController extends Controller
     public function index()
     {
         $teachers = Teacher::all();
-        return view('dashboard.teachers.index',compact('teachers'));
+        $exams = Exam::all();
+        return view('dashboard.exams.index',compact(['teachers','exams']));
     }
 
     /**
@@ -31,14 +35,12 @@ class ExamController extends Controller
     public function create()
     {
         $grades = Grade::with('classroom')->get();
-        return view('dashboard.exams.create',compact(['grades']));
+        $teachers= Teacher::all();
+        $subjects = Subject::all();
+        return view('dashboard.exams.create',compact(['grades','teachers','subjects']));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
+
     public function store(Request $request)
     {
         /*if (isset($request->validator) && $request->validator->fails()) {
@@ -46,21 +48,30 @@ class ExamController extends Controller
         }*/
         try {
 
-            $teacher = new Teacher();
-            $teacher-> name = $request->name;
-            $teacher-> email = $request->email;
-            $teacher-> password = Hash::make($request->password);
-            if($image=$request->photo){
+            $exam = new Exam();
+            $exam-> name = $request->name;
+            $exam-> teacher_id = $request->teacher_id;
+            $exam-> grade_id = $request->grade_id;
+            $exam->points =$request->points;
+            $exam->time =$request->time;
+            $exam->subject_id = $request->subject_id;
+            $exam->save();
+            $List_Classes = $request->List_Classes;
+            foreach ($List_Classes as $classroom){
+                $quize = new Quize();
+                $quize -> question = $classroom['question'] ;
+                $quize -> answer1 = $classroom['answer1'] ;
+                $quize -> answer2 = $classroom['answer2'] ;
+                $quize -> answer3 = $classroom['answer3'] ;
+                $quize -> answer4 = $classroom['answer4'] ;
+                $quize -> right_answer = $classroom['right_answer'] ;
+                $quize -> points = $classroom['points'] ;
+                $quize -> exam_id = $exam->id ;
 
-                $teacher->photo=$request->photo;
+                $quize->save();
             }
-            $teacher->save();
-            $grades = $request->input('grades');
-            foreach ($grades as $grade){
-                $gradee = Classroom::find($grade);
-                $gradee -> teacher()->syncWithoutDetaching($teacher->id);
-            }
-            return redirect()->route('teachers')->with(['success'=>'تم التحديث بنجاح']);
+
+            return redirect()->route('exams.create')->with(['success'=>'تم التحديث بنجاح']);
         }catch (\Exception $exception){
             return response()->json(['message'=>$exception]);
 

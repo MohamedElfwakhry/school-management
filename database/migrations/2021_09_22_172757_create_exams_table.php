@@ -16,8 +16,8 @@ class CreateExamsTable extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->integer('grade-id')->unsigned();
-            $table->integer('teacher_id')->unsigned();
+            $table->foreignId('grade-id')->constrained('grades')->onDelete('cascade');
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->timestamps();
         });
     }
